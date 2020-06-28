@@ -27,10 +27,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     domparser.cpp \
-    table_creator.cpp
+    table_creator.cpp \
+    file_reader.cpp
 
 HEADERS  += mainwindow.h \
     domparser.h \
-    table_creator.h
+    table_creator.h \
+    file_reader.h
 
 FORMS    += mainwindow.ui

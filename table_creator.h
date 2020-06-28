@@ -6,11 +6,14 @@
 #include <QMapIterator>
 #include <QMap>
 
+
+typedef QList<QMap<QString, QString>> List;
+
 class Table_Creator
 {
 public:
     Table_Creator();
-    QStandardItemModel  *init_table(QList<QMap<QString, QString>> arr);
+    QStandardItemModel  *init_table(List arr);
 private:
     int find_vert(QString key, QStringList vert);
 };

@@ -5,6 +5,7 @@
 #include "domparser.h"
 #include "QStandardItemModel"
 
+
 namespace Ui {
 class MainWindow;
 }
@@ -20,6 +21,9 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+    void slotCustomMenu(QPoint pos);
+    void slotDelete();
+    void on_pushButton_2_clicked();
 
 private:
     Ui::MainWindow *ui;

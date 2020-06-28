@@ -8,19 +8,19 @@
 #include <QList>
 #include <QMap>
 
+typedef QList<QMap<QString, QString>> List;
+
 class DomParser
 {
 public:
-  DomParser(QIODevice *device, QTableView *view);
-  void test(QList<QMap<QString, QString>> *arr, QDomDocument l_doc);
+  DomParser();
   QDomDocument l_doc;
-  QList<QMap<QString, QString>> arr;
+  List arr;
+  void parse_files(const QStringList file_names);
 
 private:
-
-
-  void set_arr(QList<QMap<QString, QString>> *arr, QDomDocument doc);
-  // void parseFile(const QString &fileName);
+  void  set_arr(List *arr, QDomDocument doc);
+  int   add_doc(QIODevice *device);
 };
 
 #endif // DOMPARSER_H

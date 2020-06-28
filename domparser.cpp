@@ -1,6 +1,24 @@
 #include "domparser.h"
 
-DomParser::DomParser(QIODevice *device, QTableView *view)
+DomParser::DomParser()
+{
+
+}
+
+void DomParser::parse_files(const QStringList file_names)
+{
+    QStringListIterator iter(file_names);
+    iter.toFront();
+    while(iter.hasNext())
+    {
+        QFile file(iter.next());
+        if (add_doc(&file) < 0)
+            continue;
+        set_arr(&(DomParser::arr), DomParser::l_doc);
+    }
+}
+
+int DomParser::add_doc(QIODevice *device)
 {
     QDomDocument    doc;
     QString         errorStr;
@@ -11,17 +29,13 @@ DomParser::DomParser(QIODevice *device, QTableView *view)
     {
         qWarning("Line %d, column %d: %s",
                  errorLine, errorColumn, errorStr.toStdString());
-        return;
+        return -1;
     }
     DomParser::l_doc = doc;
+    return 1;
 }
 
-void DomParser::test(QList<QMap<QString, QString>> *arr, QDomDocument l_doc)
-{
-    set_arr(arr, l_doc);
-}
-
-void DomParser::set_arr(QList<QMap<QString, QString>> *arr,
+void DomParser::set_arr(List *arr,
                         QDomDocument doc)
 {
     QMap<QString, QString>  l_map;

@@ -22,7 +22,7 @@ int Table_Creator::find_vert(QString key, QStringList vert)
 }
 
 
-QStandardItemModel  *Table_Creator::init_table(QList<QMap<QString, QString>> arr)
+QStandardItemModel  *Table_Creator::init_table(List arr)
 {
     QStandardItemModel  *model = new QStandardItemModel;
     QStandardItem       *item;
@@ -30,12 +30,10 @@ QStandardItemModel  *Table_Creator::init_table(QList<QMap<QString, QString>> arr
 
     //Заголовки столбцов
     QStringList horizontalHeader;
-    QStringList verticalHeader;
     QListIterator<QMap<QString, QString>> iter(arr);
     iter.toFront();
     while(iter.hasNext())
     {
-        verticalHeader.prepend(QString::number(i));
         QMapIterator<QString, QString> m_iter(iter.next());
         m_iter.toFront();
         if (horizontalHeader.isEmpty())
@@ -47,14 +45,18 @@ QStandardItemModel  *Table_Creator::init_table(QList<QMap<QString, QString>> arr
                 item = new QStandardItem(QString(m_iter.value()));
                 model->setItem(i - 1, find_vert(m_iter.key(), horizontalHeader) ,item);
             }
-        } else
+        }
+        else
         {
-
+            while(m_iter.hasNext())
+            {
+                m_iter.next();
+                item = new QStandardItem(QString(m_iter.value()));
+                model->setItem(i - 1, find_vert(m_iter.key(), horizontalHeader) ,item);
+            }
         }
         i++;
     }
     model->setHorizontalHeaderLabels(horizontalHeader);
-    model->setVerticalHeaderLabels(verticalHeader);
     return model;
 }
-
