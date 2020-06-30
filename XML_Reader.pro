@@ -28,11 +28,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     domparser.cpp \
     table_creator.cpp \
-    file_reader.cpp
+    file_reader.cpp \
+    importdialog.cpp
 
 HEADERS  += mainwindow.h \
     domparser.h \
     table_creator.h \
-    file_reader.h
+    file_reader.h \
+    importdialog.h
 
 FORMS    += mainwindow.ui

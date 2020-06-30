@@ -1,24 +1,37 @@
 #include "domparser.h"
 
+
 DomParser::DomParser()
 {
 
 }
 
+DomParser::DomParser(ImportDialog *dial)
+{
+    l_dial = dial;
+}
+
 void DomParser::parse_files(const QStringList file_names)
 {
+    int count_suc = 0;
+    int count_err = 0;
     QStringListIterator iter(file_names);
     iter.toFront();
     while(iter.hasNext())
     {
-        QFile file(iter.next());
-        if (add_doc(&file) < 0)
+        QString name = iter.next();
+        QFile file(name);
+        if (add_doc(&file, name) < 0)
+        {
+            l_dial->add_to_parse_error(++count_err);
             continue;
+        }
         set_arr(&(DomParser::arr), DomParser::l_doc);
+        l_dial->add_to_parse_status(++count_suc);
     }
 }
 
-int DomParser::add_doc(QIODevice *device)
+int DomParser::add_doc(QIODevice *device, QString name)
 {
     QDomDocument    doc;
     QString         errorStr;
@@ -27,6 +40,11 @@ int DomParser::add_doc(QIODevice *device)
 
     if (!doc.setContent(device, true, &errorStr, &errorLine, &errorColumn))
     {
+        l_dial->add_to_error_list("In file " + name + "   "  + "Line " +
+                                  QString::number(errorLine) +
+                                  ", Column " +
+                                  QString::number(errorColumn) +
+                                  ": " + errorStr + "\n");
         qWarning("Line %d, column %d: %s",
                  errorLine, errorColumn, errorStr.toStdString());
         return -1;

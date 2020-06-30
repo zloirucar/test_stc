@@ -1,7 +1,13 @@
 #include "file_reader.h"
 
-File_Reader::File_Reader(const QString &path)
+File_Reader::File_Reader()
 {
+
+}
+
+File_Reader::File_Reader(const QString &path, ImportDialog *dial)
+{
+    l_dial = dial;
     get_files(path);
 }
 
@@ -36,8 +42,16 @@ void File_Reader::get_files(const QString &path)
         QString name_file = iter.next();
         int result = check_file(dir.filePath(name_file));
         if (result < 0)
-            File_Reader::error_open.append(name_file);
+        {
+            File_Reader::error_count++;
+            l_dial->add_to_error_list(QString("Not open file:" + name_file + "\n"));
+            l_dial->add_to_open_error(File_Reader::error_count);
+        }
         else
-            File_Reader::find_files.append(dir.filePath(name_file));
+        {
+            find_files.append(dir.filePath(name_file));
+            File_Reader::suc_count++;
+            l_dial->add_to_open_status(suc_count);
+        }
     }
 }

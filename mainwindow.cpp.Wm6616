@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->tableView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->tableView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotCustomMenu(QPoint)));
-    ui->tableView->hide();
 }
 
 void MainWindow::set_model(QStandardItemModel *model)
@@ -37,8 +36,8 @@ void MainWindow::slotDelete()
 
 void MainWindow::slotEdit()
 {
-    QModelIndex index = ui->tableView->selectionModel()->currentIndex();
-    ui->tableView->edit(index);
+    int row = ui->tableView->selectionModel()->currentIndex().row();
+    MainWindow::ui->tableView->DoubleClicked;
 }
 
 MainWindow::~MainWindow()
@@ -48,23 +47,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    ImportDialog *status = new ImportDialog;
-    status->show();
-    //QString str = QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
-    File_Reader files ("C:\\Users\\Ivan\\Documents\\XML_Reader\\TestFolder", status);
-    DomParser pars(status);
+    File_Reader files ("C:\\Users\\Ivan\\Documents\\XML_Reader\\TestFolder\\");
+    DomParser pars;
     pars.parse_files(files.find_files);
     Table_Creator model;
     this->set_model(model.init_table(pars.arr));
     ui->tableView->setModel(l_model);
-    ui->tableView->resizeColumnsToContents();
-    ui->tableView->resizeRowsToContents();
-    ui->tableView->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
      QStandardItemModel model;
      ui->tableView->setModel(&model);
-     ui->tableView->hide();
 }
