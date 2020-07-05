@@ -10,6 +10,7 @@ ImportDialog::ImportDialog() : QWidget()
     error_messages = new QLabel("");
     ok_button = new QPushButton("Ok");
 
+    ok_button->hide();
     connect(ok_button, SIGNAL(clicked(bool)), this, SLOT(close()));
     grid_layout = new QGridLayout;
     grid_layout->addWidget(open_status, 0, 0);
@@ -21,27 +22,49 @@ ImportDialog::ImportDialog() : QWidget()
     setLayout(grid_layout);
 }
 
+List ImportDialog::get_arr()
+{
+    return arr;
+}
+
+ImportDialog::~ImportDialog()
+{
+    this->destroyed();
+}
+
 void ImportDialog::add_to_open_status(int count)
 {
     open_status->setText("Success open: " + QString::number(count));
+    this->repaint();
+}
+
+void ImportDialog::add_list(List done_arr)
+{
+    arr = done_arr;
+    emit list_done();
+    this->ok_button->show();
 }
 
 void ImportDialog::add_to_parse_status(int count)
 {
     parse_status->setText("Success parse: " + QString::number(count));
+    this->repaint();
 }
 
 void ImportDialog::add_to_error_list(QString message)
 {
     error_messages->setText(error_messages->text() + message);
+    this->repaint();
 }
 
 void ImportDialog::add_to_open_error(int count)
 {
     open_errors->setText("Error open: " + QString::number(count));
+    this->repaint();
 }
 
 void ImportDialog::add_to_parse_error(int count)
 {
     parse_errors->setText("Error parse: " + QString::number(count));
+    this->repaint();
 }

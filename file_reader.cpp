@@ -5,24 +5,17 @@ File_Reader::File_Reader()
 
 }
 
-File_Reader::File_Reader(const QString &path, ImportDialog *dial)
+File_Reader::File_Reader(QString path)
 {
-    l_dial = dial;
-    get_files(path);
+    l_path = path;
 }
 
 int File_Reader::check_file(const QString &fileName) {
     QFile file(fileName);
     if (!file.exists())
-    {
-        printf("File not found");
         return(-2);
-    }
     if (!file.open(QIODevice::ReadOnly))
-    {
-        printf("Error open file\n");
         return(-3);
-    }
     else
         file.close();
     return  (1);
@@ -44,14 +37,14 @@ void File_Reader::get_files(const QString &path)
         if (result < 0)
         {
             File_Reader::error_count++;
-            l_dial->add_to_error_list(QString("Not open file:" + name_file + "\n"));
-            l_dial->add_to_open_error(File_Reader::error_count);
+            emit s_error_list(QString("Not open file:" + name_file + "\n"));
+            emit s_error(error_count);
         }
         else
         {
             find_files.append(dir.filePath(name_file));
             File_Reader::suc_count++;
-            l_dial->add_to_open_status(suc_count);
+            emit  s_status(suc_count);
         }
     }
 }

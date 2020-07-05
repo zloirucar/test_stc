@@ -6,6 +6,7 @@
 
 QT       += core gui
 QT       += xml
+QT       += sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -27,14 +28,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     domparser.cpp \
-    table_creator.cpp \
     file_reader.cpp \
-    importdialog.cpp
+    importdialog.cpp \
+    generalparse.cpp \
+    exportfile.cpp \
+    db_work.cpp \
+    tablemodel.cpp
 
 HEADERS  += mainwindow.h \
     domparser.h \
-    table_creator.h \
     file_reader.h \
-    importdialog.h
+    importdialog.h \
+    generalparse.h \
+    exportfile.h \
+    db_work.h \
+    tablemodel.h
 
 FORMS    += mainwindow.ui
